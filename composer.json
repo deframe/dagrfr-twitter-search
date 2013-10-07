@@ -1,6 +1,6 @@
 {
     "name": "dagrfr/twitter-search",
-    "description": "",
+    "description": "Simple Laravel package for performing a Twitter search query using its REST API.",
     "authors": [
         {
             "name": "David Frame",
