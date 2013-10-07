@@ -1,0 +1,23 @@
+{
+    "name": "dagrfr/twitter-search",
+    "description": "",
+    "authors": [
+        {
+            "name": "David Frame",
+            "email": "deframe@cryst.co.uk"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "illuminate/support": "4.0.x"
+    },
+    "autoload": {
+        "classmap": [
+            "src/migrations"
+        ],
+        "psr-0": {
+            "Dagrfr\\TwitterSearch": "src/"
+        }
+    },
+    "minimum-stability": "dev"
+}
