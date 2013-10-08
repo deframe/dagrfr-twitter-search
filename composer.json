@@ -1,6 +1,10 @@
 {
     "name": "dagrfr/twitter-search",
+    "type": "library",
     "description": "Simple Laravel package for performing a Twitter search query using its REST API.",
+    "keywords": ["laravel", "twitter", "rest"],
+    "homepage": "https://github.com/deframe/dagrfr-twitter-search",
+    "license": "MIT",
     "authors": [
         {
             "name": "David Frame",

@@ -4,46 +4,46 @@ class UsernameSearcher
 {
     static public function getFeedByUsername($sUserName, $limit = 10)
     {
-        $aRet = array();        
-        		
-		$consumerKey                   = \Config::get('twitter-search::consumer.key');
-		$consumerSecret                = \Config::get('twitter-search::consumer.secret');
-		$bearerTokenCredentials        = $consumerKey . ":" . $consumerSecret;
-		$encodedBearerTokenCredentials = base64_encode($bearerTokenCredentials);
-		
-		$requestTokenUrl = \Config::get('twitter-search::twitter.requestTokenUrl');
-		$authorizeUrl    = \Config::get('twitter-search::twitter.authorizeUrl');
-		$accessTokenUrl  = \Config::get('twitter-search::twitter.accessTokenUrl');
-		$callbackUrl     = \Config::get('twitter-search::twitter.callbackUrl');
-		$searchEndpoint  = \Config::get('twitter-search::twitter.timelineSearchUrl');
+        $aRet = array();
 
-		// STEP 1 - get our access token
-		$data = http_build_query(array('grant_type'=>'client_credentials'));
-		$opts = array(
-			'http'=>array(
-				'method'=>  'POST',
-				'header'=>  'Authorization: Basic ' . $encodedBearerTokenCredentials."\r\n"
-				. 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8'."\r\n"
-				. 'Content-Length: '.strlen($data)."\r\n",
-				'content'=> $data
-			)
-		);
-		$context = stream_context_create($opts);
-		$contents = file_get_contents($requestTokenUrl,null,$context);
-		$response = json_decode($contents);
+        $consumerKey                   = \Config::get('twitter-search::consumer.key');
+        $consumerSecret                = \Config::get('twitter-search::consumer.secret');
+        $bearerTokenCredentials        = $consumerKey . ":" . $consumerSecret;
+        $encodedBearerTokenCredentials = base64_encode($bearerTokenCredentials);
 
-		// now we have an access token
-		$accessToken = $response->access_token;
+        $requestTokenUrl = \Config::get('twitter-search::twitter.requestTokenUrl');
+        $authorizeUrl    = \Config::get('twitter-search::twitter.authorizeUrl');
+        $accessTokenUrl  = \Config::get('twitter-search::twitter.accessTokenUrl');
+        $callbackUrl     = \Config::get('twitter-search::twitter.callbackUrl');
+        $searchEndpoint  = \Config::get('twitter-search::twitter.timelineSearchUrl');
 
-		// STEP 2 - Search the API with the new Token
-		$opts = array(
-			'http' => array(
-				'method' =>  'GET',
-				'header' =>  'Authorization: Bearer ' . $accessToken."\r\n"
-			)
-		);
-		$context = stream_context_create($opts);
-		$apiJson = file_get_contents($searchEndpoint."?count=".$limit."&screen_name=".$sUserName, null, $context);
+        // STEP 1 - get our access token
+        $data = http_build_query(array('grant_type'=>'client_credentials'));
+        $opts = array(
+            'http'=>array(
+                'method'=>  'POST',
+                'header'=>  'Authorization: Basic ' . $encodedBearerTokenCredentials."\r\n"
+                    . 'Content-Type: application/x-www-form-urlencoded;charset=UTF-8'."\r\n"
+                    . 'Content-Length: '.strlen($data)."\r\n",
+                'content'=> $data
+            )
+        );
+        $context = stream_context_create($opts);
+        $contents = file_get_contents($requestTokenUrl,null,$context);
+        $response = json_decode($contents);
+
+        // now we have an access token
+        $accessToken = $response->access_token;
+
+        // STEP 2 - Search the API with the new Token
+        $opts = array(
+            'http' => array(
+                'method' =>  'GET',
+                'header' =>  'Authorization: Bearer ' . $accessToken."\r\n"
+            )
+        );
+        $context = stream_context_create($opts);
+        $apiJson = file_get_contents($searchEndpoint."?count=".$limit."&screen_name=".$sUserName, null, $context);
 
         $jsonTweets = json_decode($apiJson);
 
@@ -61,7 +61,7 @@ class UsernameSearcher
                 $aRet[] = $twit;
             }
         }
-		
+
         return $aRet;
     }
 
